@@ -5,6 +5,7 @@ import Counter from "./Counter";
 import BatsMan from "./Player";
 import Users from "./Users";
 import Friend from "./Friends";
+import Post from "./Post";
 
 const fetchUsers = fetch("https://jsonplaceholder.typicode.com/users").then(
   (res) => res.json()
@@ -13,8 +14,13 @@ const friendFetch = async () => {
   const rest = await fetch("https://jsonplaceholder.typicode.com/users");
   return rest.json();
 };
+const postFetch = async () => {
+  const rest = await fetch("https://jsonplaceholder.typicode.com/posts");
+  return rest.json();
+};
 function App() {
   const friendsPromise = friendFetch();
+  const postPromise = postFetch();
   function hanledClick() {
     alert("i am clicked");
   }
@@ -28,6 +34,10 @@ function App() {
   return (
     <>
       <h1>React Core Concept Part 2</h1>
+      <Suspense fallback={<h3>Post Loading...</h3>}>
+        <Post postPromise={postPromise}></Post>
+      </Suspense>
+
       <Suspense fallback={<h3>Friends ar coming soon...</h3>}>
         <Friend friendsPromise={friendsPromise}></Friend>
       </Suspense>
